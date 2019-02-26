@@ -8,7 +8,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+          <h1>Crime Over Time</h1>
           <PollutionCloudMap/>
+          <LineC/>
       </div>
     );
   }
