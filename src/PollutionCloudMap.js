@@ -1,177 +1,144 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
+import * as topojson from 'topojson';
+
+var us  = require('us-atlas/us/10m.json');
+
+
 
 class PollutionCloudMap extends Component {
-	
-	componentDidMount(){
+	constructor(props){
+		super(props);
+		//this.props = props;
+	}
 
-		/*	This visualization was made possible by modifying code provided by:
 
-		Scott Murray, Choropleth example from "Interactive Data Visualization for the Web" 
-		https://github.com/alignedleft/d3-book/blob/master/chapter_12/05_choropleth.html	 
-				
-		Malcolm Maclean, tooltips example tutorial
-		http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html
+	init(){
+		if(this.initialized !== undefined){ return; }
+		this.initialized = true;
 
-		Mike Bostock, Pie Chart Legend
-		http://bl.ocks.org/mbostock/3888852	*/
+		this.svg = d3.select(this.refs.cloudmap);
 
-				
-		//Width and height of map
-		var width = 960;
-		var height = 500;
+		this.defs = this.svg.append("defs");
 
-		// D3 Projection
-		var projection = d3.geo.albersUsa()
-							 .translate([width/2, height/2]) // translate to center of screen
-							 .scale([1000]); // scale things down so see entire US
-						
-		// Define path generator
-		var path = d3.geo.path()  // path generator that will convert GeoJSON to SVG paths
-						 .projection(projection); // tell path generator to use albersUsa projection
 
-				
-		// Define linear scale for output
-		var color = d3.scale.linear()
-						.range(["rgb(213,222,217)","rgb(69,173,168)","rgb(84,36,55)","rgb(217,91,67)"]);
+		this.radgrad = this.defs.append("radialGradient")
+			.attr("id", "smoke")
+			.attr("cx", "50%")
+			.attr("cy", "50%")
+			.attr("r", "50%")
+			//.attr("gradientUnits", "userSpaceOnUse")
 
-		var legendText = ["Cities Lived", "States Lived", "States Visited", "Nada"];
+		this.lowerbounds = this.radgrad.append("stop")
+			.attr("offset","0")
+			.style("stop-color", "#464547")
 
-		//Create SVG element and append map to the SVG
-		var svg = d3.select(this.refs.cloudmap)
-					.attr("width", width)
-					.attr("height", height);
-						
-		// Append Div for tooltip to SVG
-		var div = d3.select("body")
-						.append("div")
-						.attr("class", "tooltip") 
-						.style("opacity", 0);
+		this.upperbounds = this.radgrad.append("stop")
+			.attr("offset","1")
+			.style("stop-color", "#464547")
+			.style("stop-opacity","0")
 
-		// Load in my states data!
-		d3.csv("stateslived.csv", function(data) {
-		color.domain([0,1,2,3]); // setting the range of the input data
+		this.defs.append("filter")
+			.attr('id',"goo")
+			.html(`<feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+      				<feColorMatrix in="blur" mode="matrix" values= "1 0 0 0 0 
+      																0 1 0 0 0 
+      																0 0 1 0 0 
+      																0 0 0 18 -7" result="goo" />
+      				<feBlend in="SourceGraphic" in2="goo" />`)
 
-		// Load GeoJSON data and merge with states data
-		d3.json("us-states.json", function(json) {
+		console.log(this.defs.nodes())
 
-		// Loop through each state data value in the .csv file
-		for (var i = 0; i < data.length; i++) {
-
-			// Grab State Name
-			var dataState = data[i].state;
-
-			// Grab data value 
-			var dataValue = data[i].visited;
-
-			// Find the corresponding state inside the GeoJSON
-			for (var j = 0; j < json.features.length; j++) {
-				var jsonState = json.features[j].properties.name;
-
-				if (dataState == jsonState) {
-
-				// Copy the data value into the JSON
-				json.features[j].properties.visited = dataValue; 
-
-				// Stop looking through the JSON
-				break;
-				}
-			}
-		}
-				
-		// Bind the data to the SVG and create one path per GeoJSON feature
-		svg.selectAll("path")
-			.data(json.features)
-			.enter()
-			.append("path")
-			.attr("d", path)
-			.style("stroke", "#fff")
-			.style("stroke-width", "1")
-			.style("fill", function(d) {
-
-			// Get data value
-			var value = d.properties.visited;
-
-			if (value) {
-			//If value exists…
-			return color(value);
-			} else {
-			//If value is undefined…
-			return "rgb(213,222,217)";
-			}
-		});
-
-				 
-		// Map the cities I have lived in!
-		d3.csv("cities-lived.csv", function(data) {
-
-		svg.selectAll("circle")
-			.data(data)
-			.enter()
-			.append("circle")
-			.attr("cx", function(d) {
-				return projection([d.lon, d.lat])[0];
-			})
-			.attr("cy", function(d) {
-				return projection([d.lon, d.lat])[1];
-			})
-			.attr("r", function(d) {
-				return Math.sqrt(d.years) * 4;
-			})
-				.style("fill", "rgb(217,91,67)")	
-				.style("opacity", 0.85)	
-
-			// Modification of custom tooltip code provided by Malcolm Maclean, "D3 Tips and Tricks" 
-			// http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html
-			.on("mouseover", function(d) {
-					div.transition()
-							 .duration(200)
-							 .style("opacity", .9);
-					div.text(d.place)
-							 .style("left", (d3.event.pageX) + "px")
-							 .style("top", (d3.event.pageY - 28) + "px");
-			})	 
-
-				// fade out tooltip on mouse out
-				.on("mouseout", function(d) {
-						div.transition()
-							 .duration(500)
-							 .style("opacity", 0);
-				});
-		});	
-						
-		// Modified Legend Code from Mike Bostock: http://bl.ocks.org/mbostock/3888852
-		var legend = svg.append("g")
-								.attr("class", "legend")
-				 			.attr("width", 140)
-							.attr("height", 200)
-			 				.selectAll("g")
-			 				.data(color.domain().slice().reverse())
-			 				.enter()
-			 				.append("g")
-				 			.attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-
-				legend.append("rect")
-			 			.attr("width", 18)
-			 			.attr("height", 18)
-			 			.style("fill", color);
-
-				legend.append("text")
-						.data(legendText)
-							.attr("x", 24)
-							.attr("y", 9)
-							.attr("dy", ".35em")
-							.text(function(d) { return d; });
-			});
-
-		});
 
 	}
+
+	componentDidMount(){
+
+		this.init();
+
+
+
+		var path = d3.geoPath();
+
+		//this.svg = d3.select(this.refs.cloudmap);
+
+		/*
+		this.svg.append("path")
+			.attr("stroke", "#aaa")
+			.attr("stroke-width", 0.5)
+			.attr("d", path(topojson.mesh(us, us.objects.counties, function(a, b) { return a !== b && (a.id / 1000 | 0) === (b.id / 1000 | 0); })));
+		*/
+
+		console.log(us);	
+		console.log(topojson);
+
+		this.mapArea = this.svg.append("g")
+
+		var states = this.mapArea.append("g")
+			.attr("class", "states")
+			.selectAll("path")
+			.data(us.objects.states.geometries)
+			.enter()
+
+		var smokes = this.mapArea.append("g")
+			.style('filter', "url(#goo)")
+			.attr("class", "smokes")
+			.selectAll("path")
+			.data(us.objects.states.geometries)
+			.enter()
+
+		states.append("path")
+			.attr("stroke-width", 0.5)
+			.attr("stroke", "blue")
+			.attr("fill", "None")
+			.attr("d", d=>path(topojson.feature(us, d, function(a, b) { return a !== b; })))
+
+		smokes//.append("g")
+			//.attr("transform", "scale(1.5)")
+			.append("path")
+			.attr("d", d=>path(topojson.feature(us, d, function(a, b) { return a !== b; })))
+			.attr("fill", "url(#smoke)")
+			.each(function(d){
+				let bbox = this.getBBox();
+				let cx = bbox.width / 2 + bbox.x;
+				let cy = bbox.height / 2 + bbox.y;
+				let scale = 1.1;
+				console.log(bbox);
+
+				d3.select(this)
+					//.attr("transform", "translate("+ cx +","+ cy +") scale("+scale+") translate("+ -cx +","+ -cy +")");
+			})
+			.style("fill-opacity", 0.5);
+
+		this.svg.on("click", (d)=>{
+				console.log(this.lowerbounds)
+
+				if(this.lowerbounds.attr("offset") == 0){
+					this.lowerbounds.transition()
+						.attr("offset", 1)
+						.duration(1500)
+
+				} else{
+					this.lowerbounds.transition()
+						.attr("offset", 0)
+						.duration(300)
+				}
+
+
+
+			})
+
+		/*
+		this.svg.append("path")
+			.attr("d", path(topojson.feature(us, us.objects.nation)));
+		*/
+
+		}
 
 
   render() {
     return (
-      <svg ref="cloudmap"></svg>
+      <svg ref="cloudmap" height='800' width='960'></svg>
     );
   }
 
