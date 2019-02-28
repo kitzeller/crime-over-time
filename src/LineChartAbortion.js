@@ -353,7 +353,7 @@ class LineChartAbortion extends Component {
                     this.setState({})
                 }
                 this.mount = mount;
-            })} style={{width: "100%", height: "700px"}}>
+            })} style={{width: "1120px", height: "890px"}}>
                 <svg ref="linechart"
                      height={this.mount ? this.mount.clientHeight + this.margin.top + this.margin.bottom : null}
                      width={this.mount ? this.mount.clientWidth + this.margin.left + this.margin.right : null}/>
