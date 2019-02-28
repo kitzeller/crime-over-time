@@ -255,7 +255,7 @@ class LineChart extends Component {
             .attr("dy", "1em")
             .style("text-anchor", "middle")
             .style("fill","red")
-            .text("Crime");
+            .text("Crime Rate (per 100,000 people)");
 
         this.svg.append("text")
             .attr("transform", "rotate(-90)")
@@ -264,7 +264,7 @@ class LineChart extends Component {
             .style("fill","grey")
             .attr("dy", "1em")
             .style("text-anchor", "middle")
-            .text("Lead");
+            .text("Lead (grams purchased as Gasoline)");
     };
 
     render() {
