@@ -104,7 +104,7 @@ class LineChartAbortion extends Component {
             .key(function(d) { return d.state_id; })
             .entries(data);
 
-        console.log(this.grouped);
+        //console.log(this.grouped);
 
         this.crimeFiltered = [];
 
@@ -162,14 +162,14 @@ class LineChartAbortion extends Component {
 
         //console.log(this.crimeFiltered);
         this.crimeFiltered.forEach( function(s) {
-            console.log(s);
+            //console.log(s);
             var unknownKey = Object.keys(s)[0];
             s[unknownKey] = s[unknownKey].filter(function (el){
               return el.Year > 1969 && el.Year < 2001;
             })
         } );
 
-        console.log(this.crimeFiltered);
+        //console.log(this.crimeFiltered);
 
         this.crimeLines = this.svg.selectAll(".c-dot")
             .data(this.crimeFiltered)
@@ -224,7 +224,7 @@ class LineChartAbortion extends Component {
                 return "a-dot";
             })
             .attr("d", (d) => {
-                console.log(d.values);
+                //console.log(d.values);
                 // var unknownKey = Object.keys(d)[0];
                 return this.line(d.values);
             })

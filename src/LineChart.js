@@ -109,8 +109,6 @@ class LineChart extends Component {
             , width = window.innerWidth - margin.left - margin.right // Use the window's width
             , height = window.innerHeight - margin.top - margin.bottom; // Use the window's height
 
-        // TODO: Dyanamically update scale w/ Transition based on selected state
-
         this.xScale = d3.scaleLinear()
             .range([0, width]); // output
 
