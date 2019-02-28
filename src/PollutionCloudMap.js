@@ -82,14 +82,15 @@ class PollutionCloudMap extends Component {
 			.data(us.objects.states.geometries)
 			.enter()
 
-		var stateNames = this.mapArea.append("g")
+		this.stateNames = this.mapArea.append("g")
 
 		var states = this.mapArea.append("g")
 			.attr("class", "states")
 			.selectAll("path")
 			.data(us.objects.states.geometries)
 			.enter()
-
+		
+		const _this = this;
 
 		states.append("path")
 			.attr("stroke-width", 0.5)
@@ -98,18 +99,18 @@ class PollutionCloudMap extends Component {
 			.attr("d", d => path(topojson.feature(us, d, function (a, b) {
 				return a !== b;
 			})))
-			.each(function (d) {
+			.each(function(d){
 				let bbox = this.getBBox();
 				let cx = bbox.width / 2 + bbox.x;
 				let cy = bbox.height / 2 + bbox.y;
-				stateNames.append("text")
+				_this.stateNames.append("text")
 					.attr("class", d.id)
 					.attr("x", cx)
 					.attr("y", cy)
 					.attr("text-anchor", "middle")
 					.text(state_names[d.id].STATE_NAME)
 			})
-
+		//console.log(setText);
 		smokes//.append("g")
 		//.attr("transform", "scale(1.5)")
 			.append("path")
@@ -132,7 +133,7 @@ class PollutionCloudMap extends Component {
 					.transition()
 					.attr("offset", function (d) {
 						newval = Math.random();
-						stateNames.select("[class='" + d3.select(this).node().parentNode.id + "']")
+						this.stateNames.select("[class='" + d3.select(this).node().parentNode.id + "']")
 							.text(newval.toFixed(3))
 						return newval ** 2
 					})
@@ -311,11 +312,41 @@ class PollutionCloudMap extends Component {
 
 	}
 
+	abbreviateNumber(value) {
+		let newValue = value;
+		const suffixes = ["", "K", "M", "B","T"];
+		let suffixNum = 0;
+		while (newValue >= 1000) {
+			newValue /= 1000;
+			suffixNum++;
+		}
+
+		newValue = newValue.toPrecision(3);
+
+		newValue += suffixes[suffixNum];
+		return newValue;
+	}
+
 	handleChange = (event) => {
 		this.setState({year: event.target.value});
 		//console.log(id, this.state[id]);
 		//console.log(this.radialGradients)
-		this.radialGradients.html(d=>`<stop class="start" offset="${(d[this.state.year]-d.min)/(d.max-d.min)}" stop-color="#464547" stop-opacity="${0.5 * ((d[this.state.year]-d.min)/(d.max-d.min) + 0.1)**4 + 0.2}"></stop><stop class="end" offset="1" stop-color="#464547" stop-opacity="0"></stop>`)
+		//console.log(this.radialGradients)
+		const _this = this;
+		this.radialGradients.each(function(d,i){
+			//console.log(d,i)
+			_this.stateNames.select("[class='"+state_names[d.state].ANSI+"']")
+				.text(_this.abbreviateNumber(d[_this.state.year]))
+			console.log(_this.stateNames.selectAll("text").select("[class='"+state_names[d.state].ANSI+"']"));
+
+			d3.select(this).selectAll("stop.start")
+				.data([d])
+				.transition()
+				.attr("offset", d=>(d[_this.state.year]-d.min)/(d.max-d.min) )
+				.attr("stop-opacity", d=> 0.5 * ((d[_this.state.year]-d.min)/(d.max-d.min) + 0.1)**4 + 0.2)
+				.duration(50)
+		})
+//		this.radialGradients.html(d=>`<stop class="start" offset="${}" stop-color="#464547" stop-opacity="${}"></stop><stop class="end" offset="1" stop-color="#464547" stop-opacity="0"></stop>`)
 
 	}
 

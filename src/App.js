@@ -92,7 +92,7 @@ class App extends Component {
                                  src="https://timedotcom.files.wordpress.com/2015/01/anti-abortion-rally.jpeg"></img>
                         </div>
                     </div>
-                    <p>This visualization below shows the trends in abortion rates and crimes. You can see than
+                    <p>This visualization below shows the trends in abortion rates and crimes. You can see that
                         approximately 18 years after
                         abortion was legalized, crime levels rapidly decline. Double click the chart to shift crime
                         rates back by 18 years and
