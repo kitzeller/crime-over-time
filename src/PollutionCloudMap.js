@@ -10,6 +10,7 @@ class PollutionCloudMap extends Component {
 	constructor(props){
 		super(props);
 		//this.props = props;
+		this.state = {opacity:50, stop:50};
 	}
 
 
@@ -126,6 +127,7 @@ class PollutionCloudMap extends Component {
 						//.on("end", anim);
 				}
 				anim()
+				console.log(this.refs.stop)
 /*
 					this.lowerbounds.transition()
 						.attr("offset", 0)
@@ -137,9 +139,20 @@ class PollutionCloudMap extends Component {
 
 
 
+
+
+	handleChange = (id) => (event) => {
+		this.setState({[id]:event.target.value});
+	}
+
+
 	render() {
 		return (
+			<div>
 			<svg ref="cloudmap" height='600' width='950'></svg>
+			<input ref="opacity" type="range" value={this.state.opacity} onChange={this.handleChange("opacity")} min="1" max="100" value="50" step='1'>
+			<input ref="stop" type="range" value={this.state.stop} onChange={this.handleChange("stop")} min="1" max="100" value="50" step='1'>
+			</div>
 		);
 	}
 
