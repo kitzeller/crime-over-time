@@ -12,7 +12,6 @@ class LineChart extends Component {
 
     constructor(props) {
         super(props);
-        this.margin = {top: 50, right: 50, bottom: 50, left: 50};
     };
 
     componentDidMount() {/*update the graph after the component mounts (and the svg is created)*/
@@ -107,9 +106,9 @@ class LineChart extends Component {
             }
         }
         this.crimeFiltered = crime;
-        var margin = {top: 100, right: 100, bottom: 100, left: 100}
-            , width = window.innerWidth - margin.left - margin.right // Use the window's width
-            , height = window.innerHeight - margin.top - margin.bottom; // Use the window's height
+        var margin = {top: 50, right: 50, bottom: 50, left: 50}
+            , width = 1100 - margin.left - margin.right // Use the window's width
+            , height = 600 - margin.top - margin.bottom; // Use the window's height
 
         this.xScale = d3.scaleLinear()
             .range([0, width]); // output
@@ -250,10 +249,10 @@ class LineChart extends Component {
                     this.setState({})
                 }
                 this.mount = mount;
-            })} style={{width:"1160px", height:"820px", display:"inline-block"}}>
+            })} style={{width:"100%", height:"600px"}}>
                 <svg ref="linechart"
-                     height={this.mount ? this.mount.clientHeight : null}
-                     width={this.mount ? this.mount.clientWidth + this.margin.left + this.margin.right : null}/>
+                     height={"600px"}
+                     width={"1100px"}/>
             </div>
         );
     }

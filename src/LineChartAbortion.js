@@ -14,7 +14,6 @@ class LineChartAbortion extends Component {
 
     constructor(props) {
         super(props);
-        this.margin = {top: 50, right: 50, bottom: 50, left: 50};
     };
 
     componentDidMount() {/*update the graph after the component mounts (and the svg is created)*/
@@ -96,7 +95,7 @@ class LineChartAbortion extends Component {
             .remove();
     }
 
-    update = (sel_crime='Violent Crime rate') => {
+    update = (sel_crime = 'Violent Crime rate') => {
         this.CRIME_HYP = sel_crime;
         this.dc = false;
 
@@ -118,9 +117,9 @@ class LineChartAbortion extends Component {
         this.crimeFiltered = [];
 
         this.crimeFiltered = crime;
-        var margin = {top: 100, right: 100, bottom: 100, left: 100}
-            , width = window.innerWidth - margin.left - margin.right // Use the window's width
-            , height = window.innerHeight - margin.top - margin.bottom; // Use the window's height
+        var margin = {top: 50, right: 50, bottom: 50, left: 50}
+            , width = 1100 - margin.left - margin.right // Use the window's width
+            , height = 600 - margin.top - margin.bottom; // Use the window's height
 
         this.crimeFilteredTwice = crime.map(a => {
             let newObject = {};
@@ -151,12 +150,12 @@ class LineChartAbortion extends Component {
 
         let max = Number.NEGATIVE_INFINITY;
 
-        this.crimeFilteredTwice.forEach((s) =>{
+        this.crimeFilteredTwice.forEach((s) => {
             //console.log(s);
             var unknownKey = Object.keys(s)[0];
             s[unknownKey].forEach((d) => {
-                if (d[this.CRIME_HYP] > max){
-                    max =d[this.CRIME_HYP];
+                if (d[this.CRIME_HYP] > max) {
+                    max = d[this.CRIME_HYP];
                 }
                 //console.log(d);
             });
@@ -374,11 +373,13 @@ class LineChartAbortion extends Component {
             .text(function (d) {
                 return d;
             })
-            .property("selected", (d) =>{ return d === this.CRIME_HYP; });
+            .property("selected", (d) => {
+                return d === this.CRIME_HYP;
+            });
 
 
         var _this = this;
-        crimeMenu.on('change', function (){
+        crimeMenu.on('change', function () {
             var selectedCrime = d3.select(this)
                 .select("select")
                 .property("value");
@@ -398,11 +399,11 @@ class LineChartAbortion extends Component {
                     this.setState({})
                 }
                 this.mount = mount;
-            })} style={{width: "1120px", height: "890px"}}>
+            })} style={{width: "100%", height: "600px"}}>
                 <div id="dropdown"></div>
                 <svg ref="linechart"
-                     height={this.mount ? this.mount.clientHeight + this.margin.top + this.margin.bottom : null}
-                     width={this.mount ? this.mount.clientWidth + this.margin.left + this.margin.right : null}/>
+                     height={"600px"}
+                     width={"1100px"}/>
             </div>
         );
     }
