@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import * as d3 from "d3";
-import {withStyles} from '@material-ui/styles';
+//import {withStyles} from '@material-ui/styles';
 
 var crime = require('./data/CrimeStatebyState.js').default;
 var gas = require('./data/gas_data_filtered.js').default;
@@ -9,11 +9,11 @@ var states = require('./data/states.js').default;
 var states_reversed = require('./data/states_reversed.js').default;
 
 class LineChart extends Component {
-
+/*
     constructor(props) {
         super(props);
     };
-
+*/
     componentDidMount() {/*update the graph after the component mounts (and the svg is created)*/
         this.update();
     }
