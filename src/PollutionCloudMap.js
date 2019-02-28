@@ -324,7 +324,6 @@ class PollutionCloudMap extends Component {
 
 		this.trans = d3.interval((t)=>{ 
 			i += direction;
-			console.log(1960+i)
 			this.handleChange({target:{value:1960 + i}})
 			if(i <=0 || i>=steps){
 				direction *= -1;
