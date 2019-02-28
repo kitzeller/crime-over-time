@@ -325,11 +325,13 @@ class PollutionCloudMap extends Component {
 			<div>
 				<svg ref="cloudmap" height='600' width='950'></svg>
 				<br/>
+				</*
 				<input ref="opacity" type="range" value={this.state.opacity} onChange={this._handleChange("opacity")}
 					   min="1" max="100" step='1'></input>
 				<input ref="stop" type="range" value={this.state.stop} onChange={this._handleChange("stop")} min="1"
-					   max="100" step='1'></input>
+					   max="100" step='1'></input> 
 				<br/>
+				*/></>
 				<h2>{this.state.year}</h2>
 				<br/>
 				<input ref="year" type="range" value={this.state.year} onChange={this.handleChange} min="1960"
