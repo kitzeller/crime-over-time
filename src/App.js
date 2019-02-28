@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import LineC from './LineChart';
+import LineA from './LineChartAbortion';
 import PollutionCloudMap from './PollutionCloudMap';
 
 class App extends Component {
@@ -53,6 +54,7 @@ class App extends Component {
                             href="https://en.wikipedia.org/wiki/Legalized_abortion_and_crime_effect"><sup>[3]</sup></a>
                     </p>
                 </div>
+                <LineA/>
             </div>
         );
     }
