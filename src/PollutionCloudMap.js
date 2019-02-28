@@ -82,13 +82,14 @@ class PollutionCloudMap extends Component {
 			.data(us.objects.states.geometries)
 			.enter()
 
+
 		this.stateNames = this.mapArea.append("g")
 
 		var states = this.mapArea.append("g")
 			.attr("class", "states")
 			.selectAll("path")
 			.data(us.objects.states.geometries)
-			.enter()
+			.enter();
 		
 		const _this = this;
 
@@ -110,12 +111,18 @@ class PollutionCloudMap extends Component {
 					.attr("text-anchor", "middle")
 					.text(state_names[d.id].STATE_NAME)
 			})
+
 		smokes.append("path")
 			.attr("d", d => path(topojson.feature(us, d, function (a, b) {
 				return a !== b;
 			})))
 			.attr("class", d => d.id)
 			.attr("fill", d => "url(#" + d.id + ")")
+            .on("mouseover",(d)=>{
+                //console.log(state_names[d.id]);
+                this.svg.selectAll(".sname").remove();
+                this.svg.append("text").attr("class","sname").attr("x","45%").attr("y","20").text(state_names[d.id]["STATE_NAME"]);
+            })
 
 		this.showoff()
 		//this.handleChange({target:{value:1960}})
@@ -341,13 +348,6 @@ class PollutionCloudMap extends Component {
 			<div>
 				<svg ref="cloudmap" height='600' width='950' styles={{display:'inline-block'}}></svg>
 				<br/>
-				</*
-				<input ref="opacity" type="range" value={this.state.opacity} onChange={this._handleChange("opacity")}
-					   min="1" max="100" step='1'></input>
-				<input ref="stop" type="range" value={this.state.stop} onChange={this._handleChange("stop")} min="1"
-					   max="100" step='1'></input> 
-				<br/>
-				*/></>
 				<h1>{this.state.year}</h1>
 				<h>Click and drag to change year</h>
 				<br/>

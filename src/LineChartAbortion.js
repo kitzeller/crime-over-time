@@ -96,7 +96,7 @@ class LineChartAbortion extends Component {
             .remove();
     }
 
-    update = (sel_crime='Violent Crime rate') => {
+    update = (sel_crime = 'Violent Crime rate') => {
         this.CRIME_HYP = sel_crime;
         this.dc = false;
 
@@ -151,12 +151,12 @@ class LineChartAbortion extends Component {
 
         let max = Number.NEGATIVE_INFINITY;
 
-        this.crimeFilteredTwice.forEach((s) =>{
+        this.crimeFilteredTwice.forEach((s) => {
             //console.log(s);
             var unknownKey = Object.keys(s)[0];
             s[unknownKey].forEach((d) => {
-                if (d[this.CRIME_HYP] > max){
-                    max =d[this.CRIME_HYP];
+                if (d[this.CRIME_HYP] > max) {
+                    max = d[this.CRIME_HYP];
                 }
                 //console.log(d);
             });
@@ -374,11 +374,13 @@ class LineChartAbortion extends Component {
             .text(function (d) {
                 return d;
             })
-            .property("selected", (d) =>{ return d === this.CRIME_HYP; });
+            .property("selected", (d) => {
+                return d === this.CRIME_HYP;
+            });
 
 
         var _this = this;
-        crimeMenu.on('change', function (){
+        crimeMenu.on('change', function () {
             var selectedCrime = d3.select(this)
                 .select("select")
                 .property("value");
