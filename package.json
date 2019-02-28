@@ -2,7 +2,6 @@
   "name": "crime-over-time",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://qwertey6.github.io/crime-over-time",
   "dependencies": {
     "@material-ui/styles": "^3.0.0-alpha.10",
     "d3": "^5.9.1",
@@ -21,7 +20,7 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "serve": "serve  ./build"
+    "serve": "serve  -s build"
   },
   "eslintConfig": {
     "extends": "react-app"
