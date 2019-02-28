@@ -30,6 +30,10 @@ class LineChart extends Component {
     };
 
     updateScale = (selState) => {
+        // Add Text
+        console.log(selState);
+        this.svg.selectAll(".statename").remove();
+        this.svg.append("text").attr("class","statename").attr("x",10).attr("y",5).text(selState);
 
         // Update Crime Scale
         let data = this.crimeFiltered.filter((d) => Object.keys(d)[0] === selState);
@@ -184,18 +188,12 @@ class LineChart extends Component {
             .style("stroke-width", 2.5)
             .style("opacity", 0.6)
             .on("mouseover", (d) => {
+                this.svg.append("text").attr("class","statename").attr("x",10).attr("y",5).text(Object.keys(d)[0]);
                 d3.selectAll("." + states_reversed[Object.keys(d)[0]]).style("stroke-width", 8);
                 this.hideStates(states_reversed[Object.keys(d)[0]]);
-
-                d3.select("#tooltip")
-                    .transition()
-                    .duration(200)
-                    .style("opacity", .9);
-                d3.select("#tooltip").html(Object.keys(d)[0] + "<br/>")
-                    .style("left", (d3.event.pageX) + "px")
-                    .style("top", (d3.event.pageY - 28) + "px");
             })
             .on("mouseout", (d) => {
+                this.svg.selectAll(".statename").remove();
                 d3.selectAll("." + states_reversed[Object.keys(d)[0]]).style("stroke-width", 2.5);
                 this.showStates();
             }).on("click", (d) => {
@@ -229,16 +227,10 @@ class LineChart extends Component {
             .on("mouseover", (d) => {
                 d3.selectAll("." + d[58].value).style("stroke-width", 8);
                 this.hideStates(d[58].value);
-
-                d3.select("#tooltip")
-                    .transition()
-                    .duration(200)
-                    .style("opacity", .9);
-                d3.select("#tooltip").html(states[d[58].value] + "<br/>")
-                    .style("left", (d3.event.pageX) + "px")
-                    .style("top", (d3.event.pageY - 28) + "px");
+                this.svg.append("text").attr("class","statename").attr("x",10).attr("y",5).text(states[d[58].value]);
             })
             .on("mouseout", (d) => {
+                this.svg.selectAll(".statename").remove();
                 d3.selectAll("." + d[58].value).style("stroke-width", 2.5);
                 this.showStates();
             })
@@ -258,14 +250,6 @@ class LineChart extends Component {
             })} style={{width: "100%", height: "700px"}}>
                 <svg ref="linechart" height={this.mount ? this.mount.clientHeight + this.margin.top + this.margin.bottom : null}
                      width={this.mount ? this.mount.clientWidth + this.margin.left + this.margin.right : null}/>
-                <div id={"tooltip"} style={{
-                    opacity: 0,
-                    position: "absolute",
-                    background: "lightsteelblue",
-                    "borderRadius": "5px",
-                    display: "inline-block",
-                    padding: "5px"
-                }}></div>
             </div>
         );
     }
