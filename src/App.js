@@ -44,15 +44,34 @@ class App extends Component {
                 <LineC/>
                 <div className="section">
                     <h2>Legalized abortion and crime effect</h2>
-                    <p>The effect of legalized abortion on crime (also the Donohue–Levitt hypothesis) is a hypothesized
-                        controversial reduction in crime in the decades following the legalization of abortion, as a
-                        result of fewer children at the highest risk of committing crime being born due to the
-                        availability of the procedure.
-                        Donohue and Levitt suggest that the absence of unwanted children, following legalization in
-                        1973, led to a reduction in crime 18 years later, starting in 1992 and dropping sharply in 1995.
-                        These would have been the peak crime-committing years of the unborn children.<a
-                            href="https://en.wikipedia.org/wiki/Legalized_abortion_and_crime_effect"><sup>[3]</sup></a>
-                    </p>
+                    <div className="row">
+                        <div className="column">
+                            <p>The effect of legalized abortion on crime (also the Donohue–Levitt hypothesis) is a
+                                hypothesized
+                                controversial reduction in crime in the decades following the legalization of abortion,
+                                as a
+                                result of fewer children at the highest risk of committing crime being born due to the
+                                availability of the procedure.
+                            </p>
+                            <p>
+                                The 1972 Rockefeller Commission on "Population and the American Future" cites a 1966
+                                study which found that children born to women who had been denied an abortion "turned
+                                out to have been registered more often with psychiatric services, engaged in more
+                                antisocial and criminal behavior, and have been more dependent on public assistance."
+                            </p>
+                            <p>
+                                Donohue and Levitt suggest that the absence of unwanted children, following legalization
+                                in
+                                1973, led to a reduction in crime 18 years later, starting in 1992 and dropping sharply
+                                in 1995.
+                                These would have been the peak crime-committing years of the unborn children.<a
+                                href="https://en.wikipedia.org/wiki/Legalized_abortion_and_crime_effect"><sup>[3]</sup></a>
+                            </p>
+
+                        </div>
+                        <div className="column">
+                        </div>
+                    </div>
                 </div>
                 <LineA/>
             </div>
