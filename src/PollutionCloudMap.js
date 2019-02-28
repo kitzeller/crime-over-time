@@ -116,16 +116,19 @@ class PollutionCloudMap extends Component {
 			})))
 			.attr("class", d => d.id)
 			.attr("fill", d => "url(#" + d.id + ")")
+
+		this.showoff()
+		//this.handleChange({target:{value:1960}})
 	}
 
-
+	/*
 	_handleChange = (id) => (event) => {
 		this.setState({[id]: event.target.value});
 		console.log(id, this.state[id]);
 		this.defs.selectAll("stop.start")
 			.attr("offset", this.state.stop/100)
 			.attr("stop-opacity", this.state.opacity/100)
-	}
+	}*/
 
 	gramsLeadPerGallon(year, gasolineUsage){
 		var pbPg;
@@ -299,7 +302,7 @@ class PollutionCloudMap extends Component {
 			//console.log(d,i)
 			_this.stateNames.select("[class='"+state_names[d.state].ANSI+"']")
 				.text(_this.abbreviateNumber(d[_this.state.year]))
-			console.log(_this.stateNames.selectAll("text").select("[class='"+state_names[d.state].ANSI+"']"));
+			//console.log(_this.stateNames.selectAll("text").select("[class='"+state_names[d.state].ANSI+"']"));
 
 			d3.select(this).selectAll("stop.start")
 				.data([d])
@@ -310,6 +313,27 @@ class PollutionCloudMap extends Component {
 		})
 //		this.radialGradients.html(d=>`<stop class="start" offset="${}" stop-color="#464547" stop-opacity="${}"></stop><stop class="end" offset="1" stop-color="#464547" stop-opacity="0"></stop>`)
 
+	}
+
+	showoff(){
+		const movetime = 3000;
+		const steps = 2016 - 1960;
+		var i = 0
+		var direction = 1;
+		//const _this = this;
+
+		this.trans = d3.interval((t)=>{ 
+			i += direction;
+			console.log(1960+i)
+			this.handleChange({target:{value:1960 + i}})
+			if(i <=0 || i>=steps){
+				direction *= -1;
+			}
+		}, movetime/steps)
+		
+	}
+	stopShowingOff=()=>{
+		this.trans.stop();
 	}
 
 
@@ -325,9 +349,10 @@ class PollutionCloudMap extends Component {
 					   max="100" step='1'></input> 
 				<br/>
 				*/></>
-				<h2>{this.state.year}</h2>
+				<h1>{this.state.year}</h1>
+				<h>Click and drag to change year</h>
 				<br/>
-				<input ref="year" type="range" value={this.state.year} onChange={this.handleChange} min="1960"
+				<input ref="year" onMouseOver={this.stopShowingOff} type="range" value={this.state.year} onChange={this.handleChange} min="1960"
 					   max="2016" step='1'></input>
 			</div>
 		);

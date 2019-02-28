@@ -31,7 +31,11 @@ class App extends Component {
                         those vehicles; and to protect public health, which mandated lead reductions in annual phases
                         (the "lead phasedown").<a
                             href="https://en.wikipedia.org/wiki/Tetraethyllead"><sup>[1]</sup></a></p>
-                    <p>The visualization below shows...</p>
+                    <p>The visualization below shows a map of the US, with 'clouds' of lead over each state. The size and darkness of the clouds is relative to 
+                        how many grams of lead were purchased (in the form of gasoline) for motor vehicles (M and B for M/Billion grams, respectively). The size and darkness is also based on the current 
+                        year's grams of lead divided by the year with the most grams of lead.  Our data takes into account the different limits of grams of lead 
+                        per gallon of fuel through the years, as well as how much of the purchased gasoline was leaded vs. unleaded. You can click and drag the 
+                        bar below the graph to see how the clouds grow and shrink through the years. Notice how drastically lead emissions decrease after 1975.</p>
                 </div>
                 <PollutionCloudMap/>
                 <div className="section">
