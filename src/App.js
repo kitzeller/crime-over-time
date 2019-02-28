@@ -31,19 +31,32 @@ class App extends Component {
                         those vehicles; and to protect public health, which mandated lead reductions in annual phases
                         (the "lead phasedown").<a
                             href="https://en.wikipedia.org/wiki/Tetraethyllead"><sup>[1]</sup></a></p>
+                    <p>The visualization below shows...</p>
                 </div>
                 <PollutionCloudMap/>
                 <div className="section">
                     <h2>Lead–crime hypothesis</h2>
-                    <p>The lead–crime hypothesis is the proposed link between elevated blood lead levels in children and
-                        increased rates of crime, delinquency, and recidivism later in life. The lead-crime hypothesis
-                        arose out of the confluence of several events, primarily the decrease in crime rates in the
-                        1990s and the reduction of environmental lead pollution in the 1970s.<a
-                            href="https://en.wikipedia.org/wiki/Lead%E2%80%93crime_hypothesis"><sup>[2]</sup></a></p>
-                    <p>Hover over the lines to highlight states! You can also click on a line to only display that
-                        state. Double-click to reset the graph.</p>
-                    <p>Crime rates are in <span style={{color: "red"}}>red</span> and lead rates are in <span
-                        style={{color: "grey"}}>grey.</span></p>
+                    <div className="row">
+                        <div className="column-large">
+                            <p>The lead–crime hypothesis is the proposed link between elevated blood lead levels in
+                                children and
+                                increased rates of crime, delinquency, and recidivism later in life. The lead-crime
+                                hypothesis
+                                arose out of the confluence of several events, primarily the decrease in crime rates in
+                                the
+                                1990s and the reduction of environmental lead pollution in the 1970s.<a
+                                    href="https://en.wikipedia.org/wiki/Lead%E2%80%93crime_hypothesis"><sup>[2]</sup></a>
+                            </p>
+                            <p>Hover over the lines to highlight states! You can also click on a line to only display
+                                that
+                                state. Double-click to reset the graph.</p>
+                            <p>Crime rates are in <span style={{color: "red"}}>red</span> and lead rates are in <span
+                                style={{color: "grey"}}>grey.</span></p>
+                        </div>
+                        <div className="column-small">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Gas_pump_lead_warning.jpg/300px-Gas_pump_lead_warning.jpg"></img>
+                        </div>
+                    </div>
 
                 </div>
                 <LineC/>
