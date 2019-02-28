@@ -51,7 +51,8 @@ class App extends Component {
                                 that
                                 state. Double-click to reset the graph.</p>
                             <p>Crime rates are in <span style={{color: "red"}}>red</span> and lead rates are in <span
-                                style={{color: "grey"}}>grey.</span></p>
+                                style={{color: "grey"}}>grey.</span> The crime rate is per 100,000 people, while the
+                                lead rate has been meticulously calculated.</p>
                         </div>
                         <div className="column-small">
                             <img
@@ -99,7 +100,8 @@ class App extends Component {
                         rates back by 18 years and
                         see the correlation.</p>
                     <p>Crime rates are in <span style={{color: "red"}}>red</span> and abortion rates are in <span
-                        style={{color: "grey"}}>grey.</span></p>
+                        style={{color: "grey"}}>grey.</span> The crime rate is per 100,000 people, while the abortion
+                        rate is the number of abortions per 1000 women aged 15-44 by state of residence.</p>
                 </div>
                 <LineA/>
                 <div className="section">
