@@ -42,6 +42,8 @@ class App extends Component {
                             href="https://en.wikipedia.org/wiki/Lead%E2%80%93crime_hypothesis"><sup>[2]</sup></a></p>
                     <p>Hover over the lines to highlight states! You can also click on a line to only display that
                         state. Double-click to reset the graph.</p>
+                    <p>Crime rates are in <span style={{color: "red"}}>red</span> and lead rates are in <span
+                        style={{color: "grey"}}>grey.</span></p>
 
                 </div>
                 <LineC/>
@@ -77,11 +79,27 @@ class App extends Component {
                                  src="https://timedotcom.files.wordpress.com/2015/01/anti-abortion-rally.jpeg"></img>
                         </div>
                     </div>
-                    <p>This visualization below shows the trends in abortion rates and crimes. You can see than approximately 18 years after
-                    abortion was legalized, crime levels rapidly decline. Double click the chart to shift crime rates back by 18 years and
-                    see the correlation.</p>
+                    <p>This visualization below shows the trends in abortion rates and crimes. You can see than
+                        approximately 18 years after
+                        abortion was legalized, crime levels rapidly decline. Double click the chart to shift crime
+                        rates back by 18 years and
+                        see the correlation.</p>
+                    <p>Crime rates are in <span style={{color: "red"}}>red</span> and abortion rates are in <span
+                        style={{color: "grey"}}>grey.</span></p>
                 </div>
                 <LineA/>
+                <div className="section">
+                    <h2>Summary</h2>
+                    <p>We explored some hypothesised explanations of the drop in US crime rates.</p>
+                </div>
+                <div className="footing">
+                    <h2>Credits</h2>
+                    <p>This project was created by Jacob Kaplan and Kit Zellerbach for a undergraduate course in Data
+                        Visualization at <a href="https://www.wpi.edu/>">WPI</a> taught by Professor Lane Harrison.</p>
+                    <p>This website was created using React and D3.js</p>
+                    <p>Data was obtained from public online sources, such as UCR Data Online, Guttmacher Institute,
+                        and State Energy Data System (SEDS).</p>
+                </div>
             </div>
         );
     }

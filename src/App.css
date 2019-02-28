@@ -48,15 +48,25 @@ h1 {
 }
 
 .section {
-    margin: 0 100px 0 100px;
+    margin: 0 100px 40px 100px;
     text-align: left;
 }
 
 .heading {
-    background: rgba(144, 144, 144, 0.07);
+    /*background: rgba(144, 144, 144, 0.07);*/
+    background-image: linear-gradient(rgba(255, 0, 5, 0.41), white);
     padding: 20px 0 20px 0;
-    border-bottom: 1px solid grey;
 }
+
+.footing {
+    /*background: rgba(144, 144, 144, 0.07);*/
+    background-image: linear-gradient(white, rgba(197, 0, 4, 0.36));
+    padding: 20px 100px 20px 100px;
+    /*margin: 0 0 0 0;*/
+    text-align: left;
+
+}
+
 
 .row {
     display: flex;
