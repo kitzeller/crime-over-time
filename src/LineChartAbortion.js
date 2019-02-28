@@ -77,7 +77,6 @@ class LineChartAbortion extends Component {
             })
         });
 
-
         this.svg.selectAll(".c-dot")
             .data(this.crimeFilteredTwice)
             .transition()
@@ -321,7 +320,7 @@ class LineChartAbortion extends Component {
             .attr("dy", "1em")
             .style("text-anchor", "middle")
             .style("fill","red")
-            .text("Crime");
+            .text("Crime Rate (per 100,000 people)");
 
         this.svg.append("text")
             .attr("transform", "rotate(-90)")
@@ -330,7 +329,7 @@ class LineChartAbortion extends Component {
             .attr("dy", "1em")
             .style("text-anchor", "middle")
             .style("fill","grey")
-            .text("Abortion");
+            .text("Abortion Rate (per 1000 women)");
 
         this.line1960 = d3.line()
             .x((d) => {
