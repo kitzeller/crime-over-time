@@ -250,7 +250,7 @@ class LineChart extends Component {
                     this.setState({})
                 }
                 this.mount = mount;
-            })} style={{width:"100%", height:"600px", display:"inline-block"}}>
+            })} style={{width:"1160px", height:"820px", display:"inline-block"}}>
                 <svg ref="linechart"
                      height={this.mount ? this.mount.clientHeight : null}
                      width={this.mount ? this.mount.clientWidth + this.margin.left + this.margin.right : null}/>
