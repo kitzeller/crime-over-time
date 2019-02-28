@@ -5,16 +5,15 @@
   "dependencies": {
     "@material-ui/styles": "^3.0.0-alpha.10",
     "d3": "^5.9.1",
-    "gh-pages": "^2.0.1",
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
     "react-scripts": "2.1.5",
-    "serve": "^10.1.2",
+    "serve-build": "^0.1.0",
     "topojson": "^3.0.2",
     "us-atlas": "^1.0.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "serve-build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
