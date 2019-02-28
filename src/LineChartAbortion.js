@@ -119,7 +119,7 @@ class LineChartAbortion extends Component {
         this.crimeFiltered = crime;
         var margin = {top: 50, right: 50, bottom: 50, left: 50}
             , width = 1100 - margin.left - margin.right // Use the window's width
-            , height = 800 - margin.top - margin.bottom; // Use the window's height
+            , height = 600 - margin.top - margin.bottom; // Use the window's height
 
         this.crimeFilteredTwice = crime.map(a => {
             let newObject = {};
@@ -399,10 +399,10 @@ class LineChartAbortion extends Component {
                     this.setState({})
                 }
                 this.mount = mount;
-            })} style={{width: "100%", height: "800px"}}>
+            })} style={{width: "100%", height: "600px"}}>
                 <div id="dropdown"></div>
                 <svg ref="linechart"
-                     height={"800px"}
+                     height={"600px"}
                      width={"1100px"}/>
             </div>
         );
