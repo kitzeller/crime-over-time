@@ -117,7 +117,7 @@ class LineChartAbortion extends Component {
         this.crimeFiltered = [];
 
         this.crimeFiltered = crime;
-        var margin = {top: 50, right: 50, bottom: 50, left: 50}
+        var margin = {top: 50, right: 60, bottom: 50, left: 60}
             , width = 1100 - margin.left - margin.right // Use the window's width
             , height = 600 - margin.top - margin.bottom; // Use the window's height
 
@@ -291,6 +291,33 @@ class LineChartAbortion extends Component {
         // .on("click", (d) => {
         //     this.updateScale(states[d[58].value]);
         // })
+
+        // Axes
+        // text label for the x axis
+        this.svg.append("text")
+            .attr("transform",
+                "translate(" + (width/2) + " ," +
+                (height + margin.top - 20) + ")")
+            .style("text-anchor", "middle")
+            .text("Date");
+
+        this.svg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left)
+            .attr("x",0 - (height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .style("fill","red")
+            .text("Crime");
+
+        this.svg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", width + margin.right - 20)
+            .attr("x",0 - (height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .style("fill","grey")
+            .text("Abortion");
 
         this.line1960 = d3.line()
             .x((d) => {
