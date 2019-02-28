@@ -54,7 +54,8 @@ class App extends Component {
                                 style={{color: "grey"}}>grey.</span></p>
                         </div>
                         <div className="column-small">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Gas_pump_lead_warning.jpg/300px-Gas_pump_lead_warning.jpg"></img>
+                            <img
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Gas_pump_lead_warning.jpg/300px-Gas_pump_lead_warning.jpg"></img>
                         </div>
                     </div>
 
