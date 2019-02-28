@@ -54,13 +54,14 @@ h1 {
 
 .heading {
     /*background: rgba(144, 144, 144, 0.07);*/
-    background-image: linear-gradient(rgba(255, 0, 5, 0.41), white);
+    background-image: linear-gradient(rgba(116, 116, 116, 0.41), rgba(255, 255, 255, 0.56));
     padding: 20px 0 20px 0;
+    border-bottom: gray 2px;
 }
 
 .footing {
     /*background: rgba(144, 144, 144, 0.07);*/
-    background-image: linear-gradient(white, rgba(197, 0, 4, 0.36));
+    background-image: linear-gradient(white, rgba(116, 116, 116, 0.36));
     padding: 20px 100px 20px 100px;
     /*margin: 0 0 0 0;*/
     text-align: left;

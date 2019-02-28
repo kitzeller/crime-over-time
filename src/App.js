@@ -90,7 +90,8 @@ class App extends Component {
                 <LineA/>
                 <div className="section">
                     <h2>Summary</h2>
-                    <p>We explored some hypothesised explanations of the drop in US crime rates.</p>
+                    <p>We explored some hypothesised explanations of the drop in US crime rates using interactive
+                        visualizations. Namely, lead poisoning and the legalization of abortion policies.</p>
                 </div>
                 <div className="footing">
                     <h2>Credits</h2>
