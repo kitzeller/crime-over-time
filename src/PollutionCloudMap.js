@@ -94,7 +94,7 @@ class PollutionCloudMap extends Component {
 
 		states.append("path")
 			.attr("stroke-width", 0.5)
-			.attr("stroke", "blue")
+			.attr("stroke", "black")
 			.attr("fill", "None")
 			.attr("d", d => path(topojson.feature(us, d, function (a, b) {
 				return a !== b;
@@ -110,50 +110,12 @@ class PollutionCloudMap extends Component {
 					.attr("text-anchor", "middle")
 					.text(state_names[d.id].STATE_NAME)
 			})
-		//console.log(setText);
-		smokes//.append("g")
-		//.attr("transform", "scale(1.5)")
-			.append("path")
+		smokes.append("path")
 			.attr("d", d => path(topojson.feature(us, d, function (a, b) {
 				return a !== b;
 			})))
 			.attr("class", d => d.id)
 			.attr("fill", d => "url(#" + d.id + ")")
-			.on("click", d => {
-				console.log(state_names[d.id].STATE_NAME)
-			})
-		//.style("fill-opacity", 0.5);
-
-		this.svg.on("click", (d) => {
-			console.log(this.lowerbounds)
-			console.log(this.defs)
-			var anim = () => {
-				var newval;
-				this.defs.selectAll("stop.start")
-					.transition()
-					.attr("offset", function (d) {
-						newval = Math.random();
-						this.stateNames.select("[class='" + d3.select(this).node().parentNode.id + "']")
-							.text(newval.toFixed(3))
-						return newval ** 2
-					})
-					.attr("stop-opacity", d => Math.random())
-					.duration(500)
-				/*						.transition()
-										.attr("offset", 0)
-										.attr("stop-opacity", 0.2)
-										.duration(500)*/
-				//.on("end", anim);
-			}
-			anim()
-			console.log(this.refs.stop)
-			/*
-								this.lowerbounds.transition()
-									.attr("offset", 0)
-									.attr("stop-opacity", 0)
-									.duration(300)
-			*/
-		})
 	}
 
 
@@ -354,7 +316,7 @@ class PollutionCloudMap extends Component {
 	render() {
 		return (
 			<div>
-				<svg ref="cloudmap" height='600' width='950'></svg>
+				<svg ref="cloudmap" height='600' width='950' styles={{display:'inline-block'}}></svg>
 				<br/>
 				</*
 				<input ref="opacity" type="range" value={this.state.opacity} onChange={this._handleChange("opacity")}
@@ -366,7 +328,7 @@ class PollutionCloudMap extends Component {
 				<h2>{this.state.year}</h2>
 				<br/>
 				<input ref="year" type="range" value={this.state.year} onChange={this.handleChange} min="1960"
-					   max="2016" step='1' width="100%"></input>
+					   max="2016" step='1'></input>
 			</div>
 		);
 	}
