@@ -33,7 +33,7 @@ class LineChart extends Component {
         // Add Text
         console.log(selState);
         this.svg.selectAll(".statename").remove();
-        this.svg.append("text").attr("class","statename").attr("x",10).attr("y",5).text(selState);
+        this.svg.append("text").attr("class", "statename").attr("x", 10).attr("y", 5).text(selState);
 
         // Update Crime Scale
         let data = this.crimeFiltered.filter((d) => Object.keys(d)[0] === selState);
@@ -47,11 +47,12 @@ class LineChart extends Component {
             .transition()
             .duration(500)
             .style("fill", "none")
-            .attr("class", "c-dot")
-            .attr("d", (d) => {
-                var unknownKey = Object.keys(d)[0];
-                return this.line1(d[unknownKey]);
-            });
+            .attr("class", function (d) {
+                return "c-dot" + " " + states_reversed[Object.keys(d)[0]];
+            }).attr("d", (d) => {
+            var unknownKey = Object.keys(d)[0];
+            return this.line1(d[unknownKey]);
+        }).style("opacity", 1);
 
         this.svg.selectAll(".c-dot")
             .data(this.crimeFiltered.filter(f => Object.keys(f)[0] === selState))
@@ -80,10 +81,11 @@ class LineChart extends Component {
             .transition()
             .duration(500)
             .style("fill", "none")
-            .attr("class", "g-dot")
-            .attr("d", (d) => {
-                return this.line(d.slice(0, 57));
-            });
+            .attr("class", function (d) {
+                return "g-dot" + " " + d[58].value;
+            }).attr("d", (d) => {
+            return this.line(d.slice(0, 57));
+        }).style("opacity", 1);
 
         this.svg.selectAll(".g-dot")
             .data(this.gasFiltered.filter(f => {
@@ -136,9 +138,12 @@ class LineChart extends Component {
             this.yScale1.domain([0, 7000]);
         }
 
-        this.svg = d3.select(this.refs.linechart)
+        this.svg = d3.select(this.refs.linechart).on("dblclick", () => {this.svg.selectAll("*").remove(); this.update()})
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        // this.svg.selectAll("*")
+        //     .remove();
 
         this.xAxis = this.svg.append("g")
             .attr("class", "x axis")
@@ -186,7 +191,7 @@ class LineChart extends Component {
             .style("stroke-width", 2.5)
             .style("opacity", 0.6)
             .on("mouseover", (d) => {
-                this.svg.append("text").attr("class","statename").attr("x",10).attr("y",5).text(Object.keys(d)[0]);
+                this.svg.append("text").attr("class", "statename").attr("x", 10).attr("y", 5).text(Object.keys(d)[0]);
                 d3.selectAll("." + states_reversed[Object.keys(d)[0]]).style("stroke-width", 8);
                 this.hideStates(states_reversed[Object.keys(d)[0]]);
             })
@@ -225,7 +230,7 @@ class LineChart extends Component {
             .on("mouseover", (d) => {
                 d3.selectAll("." + d[58].value).style("stroke-width", 8);
                 this.hideStates(d[58].value);
-                this.svg.append("text").attr("class","statename").attr("x",10).attr("y",5).text(states[d[58].value]);
+                this.svg.append("text").attr("class", "statename").attr("x", 10).attr("y", 5).text(states[d[58].value]);
             })
             .on("mouseout", (d) => {
                 this.svg.selectAll(".statename").remove();
@@ -246,7 +251,8 @@ class LineChart extends Component {
                 }
                 this.mount = mount;
             })} style={{width: "100%", height: "700px"}}>
-                <svg ref="linechart" height={this.mount ? this.mount.clientHeight + this.margin.top + this.margin.bottom : null}
+                <svg ref="linechart"
+                     height={this.mount ? this.mount.clientHeight + this.margin.top + this.margin.bottom : null}
                      width={this.mount ? this.mount.clientWidth + this.margin.left + this.margin.right : null}/>
             </div>
         );
