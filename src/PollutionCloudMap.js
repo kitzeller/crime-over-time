@@ -310,12 +310,12 @@ class PollutionCloudMap extends Component {
 			_this.stateNames.select("[class='"+state_names[d.state].ANSI+"']")
 				.text(_this.abbreviateNumber(d[_this.state.year]))
 			//console.log(_this.stateNames.selectAll("text").select("[class='"+state_names[d.state].ANSI+"']"));
-
+			let f = Math.log10
 			d3.select(this).selectAll("stop.start")
 				.data([d])
 				.transition()
-				.attr("offset", d=>(d[_this.state.year]-d.min)/(d.max-d.min) )
-				.attr("stop-opacity", d=> 0.5 * ((d[_this.state.year]-d.min)/(d.max-d.min) + 0.1)**4 + 0.2)
+				.attr("offset", d=>(f(d[_this.state.year])- 6.9218)/(10.17609- 6.9218) )
+				.attr("stop-opacity", d=> 0.5 * ((f(d[_this.state.year])- 6.9218)/(10.17609- 6.9218) + 0.1)**4 + 0.2)
 				.duration(50)
 		})
 //		this.radialGradients.html(d=>`<stop class="start" offset="${}" stop-color="#464547" stop-opacity="${}"></stop><stop class="end" offset="1" stop-color="#464547" stop-opacity="0"></stop>`)
