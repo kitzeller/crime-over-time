@@ -32,7 +32,7 @@ class LineChartAbortion extends Component {
     };
 
     moveBack = () => {
-        if (this.dc){
+        if (this.dc) {
             this.svg.selectAll("*").remove();
             this.update();
             return;
@@ -47,7 +47,7 @@ class LineChartAbortion extends Component {
         this.svg.selectAll(".legab").attr("x1", this.xScale(1973))
             .attr("x2", this.xScale(1973));
 
-        this.svg.selectAll(".abor").attr("transform","translate(600,-180) rotate(90)");
+        this.svg.selectAll(".abor").attr("transform", "translate(600,-180) rotate(90)");
 
         this.svg.selectAll(".a-dot").remove();
 
@@ -58,7 +58,7 @@ class LineChartAbortion extends Component {
                 return this.xScale(d["Year"] - 20);
             }) // set the x values for the line generator
             .y((d) => {
-                return this.yScale(d["Violent Crime rate"]);
+                return this.yScale(d[this.CRIME_HYP]);
             }) // set the y values for the line generator
         // .curve(d3.curveMonotoneX) // apply smoothing to the line
 
@@ -96,7 +96,8 @@ class LineChartAbortion extends Component {
             .remove();
     }
 
-    update = () => {
+    update = (sel_crime='Violent Crime rate') => {
+        this.CRIME_HYP = sel_crime;
         this.dc = false;
 
         //console.log(d3);
@@ -121,6 +122,23 @@ class LineChartAbortion extends Component {
             , width = window.innerWidth - margin.left - margin.right // Use the window's width
             , height = window.innerHeight - margin.top - margin.bottom; // Use the window's height
 
+        this.crimeFilteredTwice = crime.map(a => {
+            let newObject = {};
+            Object.keys(a).forEach(propertyKey => {
+                newObject[propertyKey] = a[propertyKey];
+            });
+            return newObject;
+        });
+
+
+        this.crimeFilteredTwice.forEach(function (s) {
+            //console.log(s);
+            var unknownKey = Object.keys(s)[0];
+            s[unknownKey] = s[unknownKey].filter(function (el) {
+                return el.Year < 2005;
+            })
+        });
+
         this.xScale = d3.scaleLinear()
             .range([0, width]); // output
 
@@ -130,9 +148,20 @@ class LineChartAbortion extends Component {
         this.yScale1 = d3.scaleLinear().range([height, 0]);
 
         this.xScale.domain([1960, 2004]);
-        this.yScale.domain([0, d3.max(crime, function (d) {
-            return 2900;
-        })]);
+
+        let max = Number.NEGATIVE_INFINITY;
+
+        this.crimeFilteredTwice.forEach((s) =>{
+            //console.log(s);
+            var unknownKey = Object.keys(s)[0];
+            s[unknownKey].forEach((d) => {
+                if (d[this.CRIME_HYP] > max){
+                    max =d[this.CRIME_HYP];
+                }
+                //console.log(d);
+            });
+        });
+        this.yScale.domain([0, max]);
 
         this.yScale1.domain([0, 100]);
 
@@ -166,29 +195,13 @@ class LineChartAbortion extends Component {
                 return this.xScale(d["Year"]);
             }) // set the x values for the line generator
             .y((d) => {
-                return this.yScale(d["Violent Crime rate"]);
+                return this.yScale(d[this.CRIME_HYP]);
             }) // set the y values for the line generator
         // .curve(d3.curveMonotoneX) // apply smoothing to the line
 
         //console.log(this.crimeFiltered);
         //this.crimeFilteredTwice = Object.assign(crime)
 
-        this.crimeFilteredTwice = crime.map(a => {
-            let newObject = {};
-            Object.keys(a).forEach(propertyKey => {
-                newObject[propertyKey] = a[propertyKey];
-            });
-            return newObject;
-        });
-
-
-        this.crimeFilteredTwice.forEach(function (s) {
-            //console.log(s);
-            var unknownKey = Object.keys(s)[0];
-            s[unknownKey] = s[unknownKey].filter(function (el) {
-                return el.Year < 2005;
-            })
-        });
 
         // this.grouped.forEach(function(s){
         //   console.log(s);
@@ -309,7 +322,7 @@ class LineChartAbortion extends Component {
             .attr("y1", height)
             .attr("x2", this.xScale(1995))
             .attr("y2", 0)
-            .attr("class","endab")
+            .attr("class", "endab")
             .style("stroke-dasharray", ("8, 10"))
             .style("stroke", "green")
             .style("stroke-width", 3);
@@ -320,7 +333,7 @@ class LineChartAbortion extends Component {
             .attr("y1", height)
             .attr("x2", this.xScale(1973))
             .attr("y2", 0)
-            .attr("class","legab")
+            .attr("class", "legab")
             .style("stroke", "green")
             .style("stroke-width", 3)
             .style("stroke-dasharray", ("8, 10"))
@@ -342,6 +355,38 @@ class LineChartAbortion extends Component {
         this.svg.append("text").attr("class", "abor").attr("transform", "translate(" + this.xScale(1973.3) + ",-150)" + "rotate(90)").attr("x", this.xScale(1973)).attr("y", 0).text("Abortion Legalized").style("width", "20px").style("text-anchor", "end");
         this.svg.append("text").attr("class", "endab").attr("transform", "translate(" + this.xScale(1995.3) + ",-700)" + "rotate(90)").attr("x", this.xScale(1995)).attr("y", 0).text("Crime Decrease").style("width", "20px").style("text-anchor", "end");
 
+        var crimeMenu = d3.select("#dropdown");
+
+        var options = ["Violent Crime rate", "Motor vehicle theft rate", "Larceny-theft rate", "Burglary rate", "Property crime rate", "Aggravated assault rate", "Robbery rate"];
+
+        d3.selectAll("select").remove();
+
+        crimeMenu
+            .append("select")
+            .selectAll("option")
+            .data(options)
+            .enter()
+            .append("option")
+            .attr("value", function (d) {
+                console.log(d);
+                return d;
+            })
+            .text(function (d) {
+                return d;
+            })
+            .property("selected", (d) =>{ return d === this.CRIME_HYP; });
+
+
+        var _this = this;
+        crimeMenu.on('change', function (){
+            var selectedCrime = d3.select(this)
+                .select("select")
+                .property("value");
+            console.log(selectedCrime);
+
+            _this.svg.selectAll("*").remove();
+            _this.update(selectedCrime);
+        });
 
     };
 
@@ -354,6 +399,7 @@ class LineChartAbortion extends Component {
                 }
                 this.mount = mount;
             })} style={{width: "1120px", height: "890px"}}>
+                <div id="dropdown"></div>
                 <svg ref="linechart"
                      height={this.mount ? this.mount.clientHeight + this.margin.top + this.margin.bottom : null}
                      width={this.mount ? this.mount.clientWidth + this.margin.left + this.margin.right : null}/>
