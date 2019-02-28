@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as d3 from 'd3';
 import * as topojson from 'topojson';
 
-var us  = require('us-atlas/us/10m.json');
+var us	= require('us-atlas/us/10m.json');
 var state_names = require("./data/state_names.js").default;
 
 
@@ -22,34 +22,16 @@ class PollutionCloudMap extends Component {
 		this.defs = this.svg.append("defs");
 
 
-		this.radgrad = this.defs.append("radialGradient")
-			.attr("id", "smoke")
-			.attr("cx", "50%")
-			.attr("cy", "50%")
-			.attr("r", "50%")
-			//.attr("gradientUnits", "userSpaceOnUse")
-
-		this.lowerbounds = this.radgrad.append("stop")
-			.attr("offset","0")
-			.style("stop-color", "#464547")
-
-		console.log(this.radgrad)
-
-		this.upperbounds = this.radgrad.append("stop")
-			.attr("offset","1")
-			.style("stop-color", "#464547")
-			.style("stop-opacity","0")
-
 		this.defs.append("filter")
 			.attr('id',"goo")
 			.html(`<feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-      <feColorMatrix in="blur" mode="matrix" values=
-                     "1 0 0 0 0
-                      0 1 0 0 0
-                      0 0 1 0 0
-                      0 0 0 36 -7" result="almostdone" />
-      <feGaussianBlur in="almostdone" stdDeviation="5" result="goo" />
-      <feBlend in="SourceGraphic" in2="goo" />`)
+			<feColorMatrix in="blur" mode="matrix" values=
+			 "1 0 0 0 0
+			  0 1 0 0 0
+			  0 0 1 0 0
+			  0 0 0 36 -7" result="almostdone" />
+			<feGaussianBlur in="almostdone" stdDeviation="5" result="goo" />
+			<feBlend in="SourceGraphic" in2="goo" />`)
 
 	}
 
@@ -74,14 +56,6 @@ class PollutionCloudMap extends Component {
 
 		var path = d3.geoPath();
 
-		//this.svg = d3.select(this.refs.cloudmap);
-
-		/*
-		this.svg.append("path")
-			.attr("stroke", "#aaa")
-			.attr("stroke-width", 0.5)
-			.attr("d", path(topojson.mesh(us, us.objects.counties, function(a, b) { return a !== b && (a.id / 1000 | 0) === (b.id / 1000 | 0); })));
-		*/
 
 		console.log(us);	
 		console.log(topojson);
@@ -128,21 +102,6 @@ class PollutionCloudMap extends Component {
 			.attr("d", d=>path(topojson.feature(us, d, function(a, b) { return a !== b; })))
 			.attr("class", d=>d.id)
 			.attr("fill", d=>"url(#"+d.id+")")
-			/*
-			.each(function(d){
-				let bbox = this.getBBox();
-				let cx = bbox.width / 2 + bbox.x;
-				let cy = bbox.height / 2 + bbox.y;
-				let scale = 1.1;
-
-				stateNames.append("text")
-					.attr("x", cx)
-					.attr("y", cy)
-					.text(state_names[d.id].STATE_NAME)
-				//console.log(bbox);
-
-					//.attr("transform", "translate("+ cx +","+ cy +") scale("+scale+") translate("+ -cx +","+ -cy +")");
-			})*/
 			.on("click", d=>{console.log(state_names[d.id].STATE_NAME)})
 			//.style("fill-opacity", 0.5);
 
@@ -164,40 +123,25 @@ class PollutionCloudMap extends Component {
 						.attr("offset", 0)
 						.attr("stop-opacity", 0.2)
 						.duration(500)*/
-						.each(function(d){
-							//console.log(d3.select(this).node().parentNode.id)
-							//stateNames.select("[class='"+d3.select(this).node().parentNode.id+"']")
-							//	.text(newval.toFixed(3))
-						})
-						.on("end", anim);
+						//.on("end", anim);
 				}
-
 				anim()
-
 /*
 					this.lowerbounds.transition()
 						.attr("offset", 0)
 						.attr("stop-opacity", 0)
 						.duration(300)
 */				
-
-
-
 			})
-
-		/*
-		this.svg.append("path")
-			.attr("d", path(topojson.feature(us, us.objects.nation)));
-		*/
-
 		}
 
 
-  render() {
-    return (
-      <svg ref="cloudmap" height='800' width='960'></svg>
-    );
-  }
+
+	render() {
+		return (
+			<svg ref="cloudmap" height='600' width='950'></svg>
+		);
+	}
 
 }
 
