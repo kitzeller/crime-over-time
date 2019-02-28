@@ -265,8 +265,6 @@ class LineChart extends Component {
             .attr("dy", "1em")
             .style("text-anchor", "middle")
             .text("Lead");
-
-
     };
 
     render() {

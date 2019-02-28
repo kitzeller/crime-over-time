@@ -46,7 +46,7 @@ class LineChartAbortion extends Component {
         this.svg.selectAll(".legab").attr("x1", this.xScale(1973))
             .attr("x2", this.xScale(1973));
 
-        this.svg.selectAll(".abor").attr("transform", "translate(600,-180) rotate(90)");
+        this.svg.selectAll(".abor").attr("transform", "translate(550,-180) rotate(90)");
 
         this.svg.selectAll(".a-dot").remove();
 
@@ -83,7 +83,9 @@ class LineChartAbortion extends Component {
             .transition()
             .duration(500)
             .style("fill", "none")
-            .attr("class", "c-dot")
+            .attr("class", function(d){
+                return "c-dot" + " " + states_reversed[Object.keys(d)[0]];
+            })
             .attr("d", (d) => {
                 var unknownKey = Object.keys(d)[0];
                 return lineMoved(d[unknownKey]);
@@ -231,6 +233,17 @@ class LineChartAbortion extends Component {
             })
             .style("stroke-width", 2.5)
             .style("opacity", 0.6)
+            .on("mouseover", (d) => {
+                d3.selectAll("." + states_reversed[Object.keys(d)[0]]).style("stroke-width", 8);
+                this.hideStates(states_reversed[Object.keys(d)[0]]);
+                this.svg.append("text").attr("class", "statename").attr("x", 10).attr("y", 5).text(Object.keys(d)[0]);
+            })
+            .on("mouseout", (d) => {
+                this.svg.selectAll(".statename").remove();
+                d3.selectAll("." + states_reversed[Object.keys(d)[0]]).style("stroke-width", 2.5);
+                this.showStates();
+            });
+
         // .on("mouseover", (d) => {
         //     this.svg.append("text").attr("class","statename").attr("x",10).attr("y",5).text(Object.keys(d)[0]);
         //     d3.selectAll("." + states_reversed[Object.keys(d)[0]]).style("stroke-width", 8);
